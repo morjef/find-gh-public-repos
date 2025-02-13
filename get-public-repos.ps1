@@ -1,5 +1,5 @@
-$token = GITHUB PAT"              # Replace with your GitHub Personal Access Token
-$searchTerm = "MySearchTerm"	    #replace with your search term
+$token = ""              # Replace with your GitHub Personal Access Token
+$searchTerm = "acme"     #replace with your search term
 
 $outputFile = "$MySearchTerm_GitHub_Public_Repos.csv"
 
