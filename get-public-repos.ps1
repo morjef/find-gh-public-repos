@@ -54,6 +54,21 @@ foreach ($org in $orgs.items) {
             }
         }
 
+        # Step 6: Get the last commit author
+        $commitUrl = "https://api.github.com/repos/$orgName/$repoName/commits?per_page=1"
+        $lastCommitter = "Unknown"
+        try {
+            $commitResponse = Invoke-RestMethod -Uri $commitUrl -Headers $headers
+            if ($commitResponse.Count -gt 0) {
+                $lastCommitter = $commitResponse[0].commit.author.name
+                if ($commitResponse[0].author -ne $null) {
+                    $lastCommitter = $commitResponse[0].author.login  # GitHub username
+                }
+            }
+        } catch {
+            $lastCommitter = "Error fetching commit data"
+        }
+        
         # Store results
         $repoData += [PSCustomObject]@{
             Organization   = $orgName
@@ -63,6 +78,7 @@ foreach ($org in $orgs.items) {
             LastUpdated   = $lastUpdated
             HasActions    = $hasActions
             LastActionRun = $lastRunDate
+            LastCommitter = $lastCommitter
         }
     }
 }
